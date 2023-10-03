@@ -1,8 +1,8 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "안녕하세용",
-  "main": "index.js",
+  "description": "",
+  "main": "app.js",
   "scripts": {
     "dev": "nodemon app.js"
   },
@@ -20,7 +20,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^7.5.3",
     "passport": "^0.6.0",
-    "passport-jwt": "^4.0.1"
+    "passport-jwt": "^4.0.1",
+    "passport-local": "^1.0.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
