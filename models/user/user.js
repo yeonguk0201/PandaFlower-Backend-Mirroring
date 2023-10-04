@@ -22,13 +22,9 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    address: {
-      type: String,
-      required: true,
-    },
     agreement: {
       type: Boolean,
-      default: true,
+      required: true,
     },
     isAdmin: {
       type: Boolean,
