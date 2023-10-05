@@ -1,7 +1,19 @@
 const { model, Schema } = require('mongoose');
+const { generate } = require('shortid');
+
+const shortId = {
+  type: String,
+  default: () => {
+    return generate();
+  },
+  required: true,
+  index: true,
+  unique: true,
+};
 
 const userSchema = new Schema(
   {
+    userId: shortId,
     name: {
       type: String,
       required: true,

@@ -1,7 +1,15 @@
 const User = require('./user');
 const makeHash = require('../../utils/makeHash');
 
-async function getUser() {}
+async function getUser(id) {
+  const user = await User.findOne({ userId: id });
+
+  if (!user) {
+    throw new Error('USER_NOT_FOUND');
+  }
+
+  return user;
+}
 
 async function createUser(name, email, password, phoneNumber, address) {
   const existingUser = await User.findOne({ email });
@@ -23,8 +31,4 @@ async function createUser(name, email, password, phoneNumber, address) {
   return createUser;
 }
 
-async function modifyUser() {}
-
-async function deleteUser() {}
-
-module.exports = { getUser, createUser, modifyUser, deleteUser };
+module.exports = { getUser, createUser };

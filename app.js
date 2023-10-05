@@ -28,7 +28,7 @@ app.use(passport.initialize());
 
 passportLocal();
 
-passportJwt();
+passportJtw();
 
 app.use('/users', userRouter);
 
