@@ -2,7 +2,12 @@ const User = require('./user');
 const makeHash = require('../../utils/makeHash');
 
 async function getUser(id) {
-  const user = await User.findOne({ _id: id });
+  const user = await User.findOne({ userId: id });
+
+  if (!user) {
+    throw new Error('USER_NOT_FOUND');
+  }
+
   return user;
 }
 

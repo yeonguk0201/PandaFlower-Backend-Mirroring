@@ -65,7 +65,7 @@ async function getUserInfo(req, res, next) {
     const user = await userDao.getUser(id);
     res.status(200).json(user);
   } catch (err) {
-    next(err);
+    res.status(404).json({ message: err.message });
   }
 }
 
