@@ -6,7 +6,7 @@ const morgan = require('morgan');
 const dotenv = require('dotenv');
 dotenv.config();
 const passportLocal = require('./middlewares/passportLocal');
-const passportJtw = require('./middlewares/passportJtw');
+const passportJwt = require('./middlewares/passportJwt');
 const userRouter = require('./routes/userRouter');
 
 const app = express();
