@@ -1,5 +1,6 @@
 const passport = require('passport');
 const userService = require('../services/userService');
+const userDao = require('../models/user/userDao');
 const createToken = require('../utils/createToken');
 
 async function signUp(req, res, next) {
@@ -58,7 +59,18 @@ async function login(req, res, next) {
   })(req, res, next);
 }
 
+async function getUserInfo(req, res, next) {
+  try {
+    const { id } = req.params;
+    const user = await userDao.getUser(id);
+    res.status(200).json(user);
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
   signUp,
   login,
+  getUserInfo,
 };
