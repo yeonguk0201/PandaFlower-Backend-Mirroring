@@ -1,9 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const passport = require('passport');
 const cors = require('cors');
 const morgan = require('morgan');
 const dotenv = require('dotenv');
 dotenv.config();
+const passportLocal = require('./middlewares/passportLocal');
+const passportJtw = require('./middlewares/passportJtw');
 const userRouter = require('./routes/userRouter');
 
 const app = express();
@@ -21,6 +24,9 @@ app.use(cors());
 app.use(morgan('combined'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+passportJtw();
+app.use(passport.initialize());
+passportLocal();
 
 app.use('/users', userRouter);
 

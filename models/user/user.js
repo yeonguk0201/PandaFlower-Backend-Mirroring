@@ -24,7 +24,7 @@ const userSchema = new Schema(
     },
     agreement: {
       type: Boolean,
-      required: true,
+      default: true,
     },
     isAdmin: {
       type: Boolean,
