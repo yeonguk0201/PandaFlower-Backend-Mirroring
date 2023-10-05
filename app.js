@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const dotenv = require('dotenv');
 dotenv.config();
 const cartRouter = require('./routes/cartRouter');
+const errorMiddleware = require('./middlewares/middleWare');
 
 const app = express();
 
@@ -24,9 +25,7 @@ mongoose
   
 app.use('/cart',cartRouter);
 
-app.use((err, req, res, next) => {
-  res.json({ error: err.message });
-});
+
 
 
 app.listen(process.env.PORT, () => {

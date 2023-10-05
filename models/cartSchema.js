@@ -4,7 +4,8 @@ const CartSchema = new mongoose.Schema({
     
     itemKey:{
      type: String, 
-    required: true,},
+    required: true,
+  },
     itemCNT:{
       type:Number,
       required:true,
