@@ -1,4 +1,3 @@
-
 const mongoose = require('mongoose');
 const CartSchema = new mongoose.Schema({
 
@@ -10,10 +9,11 @@ const CartSchema = new mongoose.Schema({
      type: String, 
     required: true,
   },
-    itemCNT:{
-      type:Number,
-      required:true,
-    },
+    itemCNT: {
+      type: Number,
+      required: true,
+      min: 1,
+  }
   }
 );
 

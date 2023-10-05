@@ -1,9 +1,19 @@
 const CartItem = require('../models/cartSchema');
 
+
 const cartService = {
+  addItemToCart: async (userKey, itemKey) => {
+    try {
+      const cartItem = new CartItem({ userKey, itemKey });
+      const result = await cartItem.save();
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
+
   deleteCartItem: async (userKey, itemKey) => {
     try {
-      // 장바구니 항목 삭제 로직
       const result = await CartItem.deleteOne({ userKey, itemKey });
       return result;
     } catch (error) {
@@ -11,5 +21,7 @@ const cartService = {
     }
   },
 };
+
+
 
 module.exports = cartService;
