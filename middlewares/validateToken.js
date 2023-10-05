@@ -1,19 +1,20 @@
 const passport = require('passport');
 
-async function validateToken(req, res, next) {
-  passport.authenticate('jwt', { session: false }, (err, user, info) => {
+module.exports = async (req, res, next) => {
+  passport.authenticate('jwt', { session: false }, (err, user) => {
     try {
-      console.log(err);
       if (err) {
         throw new Error(err);
       }
+
       if (!user) {
         return res.status(401).json({ message: 'Unauthorized' });
       }
+
+      console.log('인증 완료');
+      next();
     } catch (err) {
-      next(err);
+      res.status(401).json({ message: err.message });
     }
   })(req, res, next);
-}
-
-module.exports = validateToken;
+};

@@ -1,7 +1,7 @@
 const passport = require('passport');
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
-const User = require('../models/user/user');
+const userDao = require('../models/user/userDao');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -14,16 +14,14 @@ module.exports = () => {
   passport.use(
     new JwtStrategy(jwtOptions, async (jwtPayload, done) => {
       try {
-        console.log(jwtPayload.id);
-        const user = await User.findOne({ email: jwtPayload.id });
-
+        const user = await userDao.getUser(jwtPayload.id);
         if (user) {
           return done(null, user);
         } else {
           return done(null, false);
         }
       } catch (err) {
-        done(err, false);
+        return done(err, false);
       }
     })
   );

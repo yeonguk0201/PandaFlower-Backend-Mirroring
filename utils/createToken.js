@@ -3,10 +3,10 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 function createToken(user) {
-  const { email, isAdmin } = user;
+  const { userId, isAdmin } = user;
 
   const payload = {
-    id: email,
+    id: userId,
     auth: isAdmin,
   };
 

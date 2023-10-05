@@ -34,7 +34,7 @@ async function signUp(req, res, next) {
   }
 }
 
-async function login(req, res, next) {
+async function login(req, res) {
   passport.authenticate('local', { session: false }, (err, user, info) => {
     try {
       if (err) {
@@ -54,9 +54,9 @@ async function login(req, res, next) {
         res.json({ accessToken: token });
       });
     } catch (err) {
-      next(err);
+      res.status(400).json({ message: err.message });
     }
-  })(req, res, next);
+  })(req, res);
 }
 
 async function getUserInfo(req, res, next) {
