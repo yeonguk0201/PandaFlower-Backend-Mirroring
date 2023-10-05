@@ -1,6 +1,8 @@
 const User = require('./user');
 const makeHash = require('../../utils/makeHash');
 
+async function getUser() {}
+
 async function createUser(name, email, password, phoneNumber, address) {
   const existingUser = await User.findOne({ email });
 
@@ -21,4 +23,8 @@ async function createUser(name, email, password, phoneNumber, address) {
   return createUser;
 }
 
-module.exports = { createUser };
+async function modifyUser() {}
+
+async function deleteUser() {}
+
+module.exports = { getUser, createUser, modifyUser, deleteUser };

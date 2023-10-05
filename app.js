@@ -6,7 +6,7 @@ const morgan = require('morgan');
 const dotenv = require('dotenv');
 dotenv.config();
 const passportLocal = require('./middlewares/passportLocal');
-const passportJtw = require('./middlewares/passportJtw');
+const passportJwt = require('./middlewares/passportJwt');
 const userRouter = require('./routes/userRouter');
 
 const app = express();
@@ -24,14 +24,16 @@ app.use(cors());
 app.use(morgan('combined'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-passportJtw();
 app.use(passport.initialize());
+
 passportLocal();
+
+passportJwt();
 
 app.use('/users', userRouter);
 
 app.use((err, req, res, next) => {
-  res.json({ error: err.message });
+  res.json({ message: err.message });
 });
 
 app.listen(process.env.PORT, () => {
