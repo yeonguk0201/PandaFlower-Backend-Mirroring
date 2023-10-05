@@ -9,27 +9,25 @@ const errorMiddleware = require('./middlewares/middleWare');
 
 const app = express();
 
-mongoose
-  .connect(process.env.MONGO_DB_URL)
-  .then(() => {
-    console.log('MongoDB에 연결되었습니다.');
-  })
-  .catch((error) => {
-    console.error('MongoDB 연결 실패:', error);
-  });
+
+const PORT = process.env.PORT || 3000;
+
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+
+mongoose.connection.on('connected', () => {
+  console.log('MongoDB Connected');
+});
+
+app.listen(process.env.PORT, () => {
+  console.log(`Server is listening Port on ${PORT}`);
+});
   
-  app.use(cors());
-  app.use(morgan('combined'));
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+app.use(morgan('combined'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
   
 app.use('/cart',cartRouter);
 
-
-
-
-app.listen(process.env.PORT, () => {
-  console.log(`Server is listening Port on ${process.env.PORT}`);
-});
 
 
