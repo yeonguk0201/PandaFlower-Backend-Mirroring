@@ -164,6 +164,7 @@ router.patch('/:item_id', async (req, res, next) => {
 //상품 삭제 라우터
 router.delete('/:item_id', async (req, res, next) => {
   console.log('상품 삭제 라우터!');
+
   try {
     //item_id로 파라미터 설정
     const { item_id } = req.params;

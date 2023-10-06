@@ -70,23 +70,46 @@ router.post('/', async (req, res, next) => {
 });
 
 //카테고리 수정 라우터
-router.patch('/category_id', async (req, res, next) => {
+router.patch('/:category_id', async (req, res, next) => {
   console.log('카테고리 수정 라우터!');
   try {
     const { category_id } = req.params;
 
-    const updataData = req.body;
+    const updateData = req.body;
 
-    const updateCategory = await Category.findByIdAndUpdate({ category_id }, updataData, { new: true });
+    const updateCategory = await Category.findByIdAndUpdate(category_id, updateData, { new: true });
 
     if (!updateCategory) {
-      res.status(404).json({ status: 'error', msg: '아이템을 찾을 수 없습니다.' });
+      res.status(404).json({ status: 'error', msg: '카테고리를 찾을 수 없습니다.' });
     }
+
+    const currentCategory = await Category.findOne({ category: category_id });
+
+    await Item.updateMany({ category: currentCategory }, { category: updateData.name });
+
+    res.status(200).json({ status: 200, msg: '카테고리 수정 성공!', data: { category: updateCategory } });
   } catch (error) {
     return res.status(500).json({ status: 'error', msg: '카테고리 수정 중 에러가 발생했습니다.', error: error.message });
   }
 });
 
 //카테고리 삭제 라우터
+router.delete('/:category_id', async (req, res, next) => {
+  console.log('카테고리 삭제 라우터!');
+
+  try {
+    const { category_id } = req.params;
+
+    const deleteCategory = await Category.findOneAndDelete({ _id: category_id });
+
+    if (!deleteCategory) {
+      return res.status(404).json({ status: 404, msg: '해당 카테고리가 없습니다!' });
+    }
+
+    res.status(200).json({ status: 200, msg: '카테고리 삭제 성공!', data: deleteCategory });
+  } catch (error) {
+    return res.status(500).json({ status: 500, msg: '카테고리 삭제 중 에러가 발생했습니다.', error: error.message });
+  }
+});
 
 module.exports = router;
