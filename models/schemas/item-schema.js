@@ -3,7 +3,12 @@ const shortId = require('./types/short-id');
 
 const itemSchema = new Schema({
   //상품 구분할 id
-  shortId,
+  item_id: {
+    type: String,
+    default: shortId.default,
+    required: true,
+    index: true,
+  },
   //이름
   name: {
     type: String,

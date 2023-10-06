@@ -2,9 +2,7 @@ const { nanoid } = require('nanoid');
 
 const shortId = {
   type: String,
-  default: () => {
-    return nanoid;
-  },
+  default: () => nanoid(),
   required: true,
   index: true,
 };

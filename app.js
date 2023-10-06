@@ -5,7 +5,6 @@ const morgan = require('morgan');
 const dotenv = require('dotenv');
 dotenv.config();
 
-const indexRouter = require('./routes');
 const categoryRouter = require('./routes/category-router');
 const itemRouter = require('./routes/item-router');
 
@@ -16,9 +15,8 @@ app.use(morgan('combined'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// app.use('/', indexRouter);
-// app.use('/category', categoryRouter);
-app.use('/item', itemRouter);
+app.use('/categories', categoryRouter);
+app.use('/items', itemRouter);
 
 const PORT = process.env.PORT || 3000;
 

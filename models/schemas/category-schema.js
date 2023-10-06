@@ -6,15 +6,13 @@ const categorySchema = new Schema({
     required: true,
   },
   index: {
-    type: String,
-    required: true,
+    type: Number,
+    // required: true,
   },
-  items: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Item',
-    },
-  ],
+  subCategory: {
+    type: Schema.Types.ObjectId,
+    ref: 'SubCategory',
+  },
 });
 
 module.exports = categorySchema;
