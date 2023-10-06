@@ -27,7 +27,7 @@ app.use(passport.initialize());
 passportLocal();
 passportJwt();
 
-app.use('/users', userRouter);
+app.use('/api/users', userRouter);
 
 app.use((err, req, res, next) => {
   res.status(400).json({ message: err.message });

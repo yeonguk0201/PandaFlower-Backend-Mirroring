@@ -59,9 +59,9 @@ async function login(req, res) {
   })(req, res);
 }
 
-async function getUserInfo(req, res, next) {
+async function getUserInfo(req, res) {
+  const { id } = req.params;
   try {
-    const { id } = req.params;
     const user = await userDao.getUser(id);
     res.status(200).json(user);
   } catch (err) {
@@ -69,8 +69,33 @@ async function getUserInfo(req, res, next) {
   }
 }
 
+async function editUserInfo(req, res) {
+  const { id } = req.params;
+  const updateData = req.body;
+  try {
+    const updatedUser = await userDao.editUser(id, updateData);
+    res.status(200).json(updatedUser);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+}
+
+async function deleteUser(req, res) {
+  const { id } = req.params;
+  try {
+    const result = await userDao.deleteUser(id);
+    if (result === 1) {
+      res.status(200).json({ message: 'SUCCESS_DELETE' });
+    }
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+}
+
 module.exports = {
   signUp,
   login,
   getUserInfo,
+  editUserInfo,
+  deleteUser,
 };

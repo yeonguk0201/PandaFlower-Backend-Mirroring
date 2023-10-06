@@ -10,4 +10,8 @@ router.post('/login', userController.login);
 
 router.get('/:id', validateToken, userController.getUserInfo);
 
+router.patch('/:id', validateToken, userController.editUserInfo);
+
+router.delete('/:id', validateToken, userController.deleteUser);
+
 module.exports = router;
