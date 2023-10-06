@@ -7,6 +7,7 @@ dotenv.config();
 const passportLocal = require('./middlewares/passportLocal');
 const passportJwt = require('./middlewares/passportJwt');
 const userRouter = require('./routes/userRouter');
+const orderRouter = require('./routes/orderRouter');
 
 const app = express();
 
@@ -28,6 +29,8 @@ passportLocal();
 passportJwt();
 
 app.use('/api/users', userRouter);
+
+app.use('/api/users/:id/order', orderRouter);
 
 app.use((err, req, res, next) => {
   res.status(400).json({ message: err.message });
