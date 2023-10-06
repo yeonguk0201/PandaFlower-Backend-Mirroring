@@ -6,14 +6,17 @@ const orderSchema = new Schema(
   {
     orderNumber: {
       type: String,
-      default: uuid.v4(),
+      default: () => {
+        return uuid.v4();
+      },
+      index: true,
       unique: true,
+      required: true,
     },
     orderStatus: {
       type: String,
       enum: ['주문완료', '상품준비중', '배송시작', '배송완료'],
-      default: '주문완료',
-      unique: true,
+      required: true,
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
@@ -24,6 +27,18 @@ const orderSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Cart', // Cart 모델과 연결
     },
+    items: [
+      {
+        item: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Item',
+        },
+        quantity: {
+          type: Number,
+          required: true,
+        },
+      },
+    ],
   },
   { timestamps: true }
 );

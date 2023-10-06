@@ -10,7 +10,7 @@ module.exports = async (req, res, next) => {
       if (!user) {
         return res.status(401).json({ message: 'Unauthorized' });
       }
-
+      req.user = user;
       console.log('인증 완료');
       next();
     } catch (err) {

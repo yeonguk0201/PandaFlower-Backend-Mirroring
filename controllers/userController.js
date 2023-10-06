@@ -60,7 +60,6 @@ async function login(req, res) {
 }
 
 async function getUserInfo(req, res) {
-  console.log(req.user);
   const { id } = req.params;
   try {
     const user = await userDao.getUser(id);

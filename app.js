@@ -30,7 +30,7 @@ passportJwt();
 
 app.use('/api/users', userRouter);
 
-app.use('/api/users/:id/order', orderRouter);
+app.use('/order', orderRouter);
 
 app.use((err, req, res, next) => {
   res.status(400).json({ message: err.message });
