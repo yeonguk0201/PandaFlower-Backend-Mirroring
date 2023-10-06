@@ -1,13 +1,14 @@
 const mongoose = require('mongoose');
 const CartSchema = new mongoose.Schema({
 
-  userKey:{
-    type:mongoose.Schema.Types.ObjectId,
-    ref:"User"
+    userKey:{
+      type:mongoose.Schema.Types.ObjectId,
+      //type: String,
+      ref:"User"
   },
     itemKey:{
-     type: String, 
-    required: true,
+      type: String, 
+      required: true,
   },
     itemCNT: {
       type: Number,

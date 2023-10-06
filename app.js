@@ -5,7 +5,6 @@ const morgan = require('morgan');
 const dotenv = require('dotenv');
 dotenv.config();
 const cartRouter = require('./routes/cartRouter');
-const errorMiddleware = require('./middlewares/middleWare');
 
 const app = express();
 
@@ -14,7 +13,7 @@ const PORT = process.env.PORT || 3000;
 
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
-mongoose.connection.on('connected', () => {
+mongoose.connection.on('connected', () => {app
   console.log('MongoDB Connected');
 });
 
