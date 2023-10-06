@@ -9,6 +9,9 @@ const passportJwt = require('./middlewares/passportJwt');
 const userRouter = require('./routes/userRouter');
 const orderRouter = require('./routes/orderRouter');
 
+const categoryRouter = require('./routes/category-router');
+const itemRouter = require('./routes/item-router');
+
 const app = express();
 
 mongoose
@@ -34,6 +37,17 @@ app.use('/order', orderRouter);
 
 app.use((err, req, res, next) => {
   res.status(400).json({ message: err.message });
+});
+
+app.use('/categories', categoryRouter);
+app.use('/items', itemRouter);
+
+const PORT = process.env.PORT || 3000;
+
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+
+mongoose.connection.on('connected', () => {
+  console.log('MongoDB Connected');
 });
 
 app.listen(process.env.PORT, () => {
