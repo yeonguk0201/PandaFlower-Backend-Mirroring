@@ -56,7 +56,7 @@ async function updateCartItem(req, res) {
 
     const updatedCart = await cartService.updateCart(userKey, userCart);
 
-    res.status(200).json({ message: 'Update Ssccess', cart: updatedCart });
+    res.status(200).json({ message: 'Update success', cart: updatedCart });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Controller Error' });
