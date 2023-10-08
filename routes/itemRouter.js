@@ -1,5 +1,6 @@
 const { Router } = require('express');
-const { Category, SubCategorySchema, Item } = require('../models');
+// const { Category, SubCategorySchema, Item } = require('../models');
+const Item = require('../models/item/itemScehma');
 const { itemService } = require('../services/itemService');
 const catchAsync = require('../utils/catchAsync');
 

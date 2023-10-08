@@ -1,14 +1,14 @@
-const { Schema } = require('mongoose');
+// const { Schema } = require('mongoose');
 
-const subCategorySchema = new Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-  index: {
-    type: String,
-    required: true,
-  },
-});
+// const subCategorySchema = new Schema({
+//   name: {
+//     type: String,
+//     required: true,
+//   },
+//   index: {
+//     type: String,
+//     required: true,
+//   },
+// });
 
-module.exports = subCategorySchema;
+// module.exports = subCategorySchema;

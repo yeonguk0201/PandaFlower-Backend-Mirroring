@@ -1,4 +1,5 @@
-const { Category, Item } = require('../models');
+// const { Category, Item } = require('../models');
+const Item = require('../models/item/itemScehma');
 
 class ItemService {
   constructor() {}
