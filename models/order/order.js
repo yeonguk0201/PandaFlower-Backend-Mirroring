@@ -13,19 +13,31 @@ const orderSchema = new Schema(
       unique: true,
       required: true,
     },
-    orderStatus: {
+    deliveryStatus: {
       type: String,
       enum: ['주문완료', '상품준비중', '배송시작', '배송완료'],
+      required: true,
+    },
+    recipient: {
+      type: String,
+      required: true,
+    },
+    contact: {
+      type: String,
+      required: true,
+    },
+    shippingAddress: {
+      type: String,
+      required: true,
+    },
+    totalPrice: {
+      type: String,
       required: true,
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User', // User 모델과 연결
       required: true,
-    },
-    cart: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Cart', // Cart 모델과 연결
     },
     items: [
       {
