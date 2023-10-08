@@ -13,5 +13,5 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.listen(process.env.PORT, () => {
-  console.log(`Server is listening Port on ${PORT}`);
+  console.log(`Server is listening Port on ${process.env.PORT}`);
 });
