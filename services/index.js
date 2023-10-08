@@ -1,2 +1,2 @@
-module.exports = require('./category-service');
-module.exports = require('./item-service');
+module.exports = require('./categoryService');
+module.exports = require('./itemService');
