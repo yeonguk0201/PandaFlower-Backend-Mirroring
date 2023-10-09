@@ -1,6 +1,17 @@
 const Order = require('../models/order/order');
 const orderService = require('../services/orderService');
 
+async function getOrderByUser(req, res) {
+  const { _id } = req.user;
+
+  try {
+    const orders = await orderService.getOrder(_id);
+    res.status(200).json(orders);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+}
+
 async function createOrder(req, res) {
   const { _id } = req.user;
   const { recipient, contact, shippingAddress, totalPrice, items } = req.body;
@@ -23,5 +34,6 @@ async function createOrder(req, res) {
 }
 
 module.exports = {
+  getOrderByUser,
   createOrder,
 };
