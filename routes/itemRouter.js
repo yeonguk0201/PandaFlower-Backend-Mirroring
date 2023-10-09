@@ -1,7 +1,10 @@
 const { Router } = require('express');
-const Item = require('../models/item/itemSchema');
 const itemController = require('../controllers/itemController');
-const catchAsync = require('../utils/catchAsync');
+
+const multer = require('multer');
+const upload = multer({
+  dest: 'uploads/',
+});
 
 const router = Router();
 
@@ -18,10 +21,12 @@ router.get('/:item_id', itemController.detailItem);
 router.get('/', itemController.allItems);
 
 //상품 생성 라우터
-router.post('/', itemController.createItem);
+router.post('/', upload.single('image'), itemController.createItem);
+
+// router.post('/mul', upload.single('image'));
 
 //상품 수정 라우터
-router.patch('/:item_id', itemController.updateItem);
+router.patch('/:item_id', upload.single('image'), itemController.updateItem);
 
 //상품 삭제 라우터
 router.delete('/:item_id', itemController.deleteItem);

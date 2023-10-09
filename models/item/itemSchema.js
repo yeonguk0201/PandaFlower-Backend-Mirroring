@@ -38,9 +38,7 @@ const itemSchema = new Schema({
     required: true,
   },
   //상품 이미지
-  image: {
-    url: String,
-  },
+  imageUrl: String,
 });
 
 const Item = model('Item', itemSchema);
