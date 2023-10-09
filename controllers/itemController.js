@@ -1,5 +1,6 @@
 const Category = require('../models/category/categorySchema');
 const Item = require('../models/item/itemSchema');
+const multer = require('multer');
 
 async function searchItems(req, res, next) {
   console.log('검색 라우터!');
@@ -94,6 +95,13 @@ async function createItem(req, res, next) {
   console.log('상품 추가 라우터!');
   const data = req.body;
 
+  const image = req.file.path;
+  console.log(req.file, image);
+
+  if (image === undefined) {
+    return res.status(400).json({ msg: '이미지가 없습니다.' });
+  }
+
   try {
     //새로운 상품 생성
     const newItem = await Item.create({
@@ -101,6 +109,7 @@ async function createItem(req, res, next) {
       category: data.category,
       price: data.price,
       description: data.description,
+      imageUrl: image,
     });
 
     //추가 성공시 응답
@@ -113,6 +122,15 @@ async function createItem(req, res, next) {
   }
 }
 
+// async function uploadImage(req, res, next) {
+//   const image = req.file.path;
+//   console.log(req.file);
+//   if (image === undefined) {
+//     return res.status(400).json({ msg: '이미지가 없습니다.' });
+//   }
+//   res.status(200).json({ msg: '이미지 등록', data: image });
+// }
+
 async function updateItem(req, res, next) {
   console.log('상품 수정 라우터!');
   try {
@@ -121,6 +139,10 @@ async function updateItem(req, res, next) {
 
     //body에서 받은 데이터를 updateDate라고 저장
     const updateData = req.body;
+    const image = req.file.path;
+    console.log(image);
+
+    updateData.imageUrl = image;
 
     //findOne으로 item_id랑 같은 아이템 찾고, updateData를 업뎃하고 new:true로 업데이트 후의 아이템을 반환해서 바로 잘 됬는지 확인
     const updatedItem = await Item.findOneAndUpdate({ item_id }, updateData, { new: true });
@@ -162,4 +184,5 @@ module.exports = {
   createItem,
   updateItem,
   deleteItem,
+  // uploadImage,
 };
