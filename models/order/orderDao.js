@@ -10,7 +10,7 @@ async function getOrder(id) {
 }
 
 async function createOrder(orderData) {
-  const newOrder = await Order.create(orderData);
+  const newOrder = await Order.create(orderData).populate('user');
 
   if (!newOrder) {
     throw new Error('ORDER_FAILED');
@@ -19,7 +19,39 @@ async function createOrder(orderData) {
   return newOrder;
 }
 
+async function editOrderInfo(orderNumber, deliveryInfo) {
+  const filter = { orderNumber };
+  const update = deliveryInfo;
+  const updated = await Order.updateOne(filter, update);
+
+  if (updated.modifiedCount === 0) {
+    throw new Error('NOTHING_HAS_BEEN_MODIFIED');
+  }
+
+  return updated;
+}
+
+async function deleteOrder(orderNumber) {
+  const order = await Order.findOne({ orderNumber });
+
+  if (order && order.deliveryStatus !== '주문완료') {
+    throw new Error('UNABLE_CANCEL_ORDER');
+  }
+
+  const deletedOrder = await Order.deleteOne({ orderNumber });
+
+  console.log(deletedOrder);
+
+  if (deletedOrder.deletedCount === 0) {
+    throw new Error('ORDER_CANCEL_FAILED');
+  }
+
+  return deletedOrder;
+}
+
 module.exports = {
   getOrder,
   createOrder,
+  editOrderInfo,
+  deleteOrder,
 };

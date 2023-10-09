@@ -31,12 +31,12 @@ const orderSchema = new Schema(
       required: true,
     },
     totalPrice: {
-      type: String,
+      type: Number,
       required: true,
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User', // User 모델과 연결
+      ref: 'User',
       required: true,
     },
     items: [
@@ -47,7 +47,7 @@ const orderSchema = new Schema(
         },
         quantity: {
           type: Number,
-          required: true,
+          // required: true,
         },
       },
     ],
