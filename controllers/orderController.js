@@ -1,4 +1,5 @@
 const orderService = require('../services/orderService');
+const Order = require('../models/order/order');
 
 async function getOrderByUser(req, res) {
   const { _id } = req.user;
@@ -54,9 +55,19 @@ async function deleteOrder(req, res) {
   }
 }
 
+async function getAllOrderByAdmin(req, res) {
+  try {
+    const orders = await Order.find({});
+    res.status(200).json(orders);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+}
+
 module.exports = {
   getOrderByUser,
   createOrder,
   editOrderInfo,
   deleteOrder,
+  getAllOrderByAdmin,
 };
