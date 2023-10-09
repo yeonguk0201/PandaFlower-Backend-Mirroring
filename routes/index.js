@@ -1,2 +1,2 @@
-module.exports = require('./category-router');
-module.exports = require('./item-router');
+// module.exports = require('./categoryRouter');
+// module.exports = require('./itemRouter');

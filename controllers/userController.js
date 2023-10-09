@@ -8,17 +8,6 @@ async function signUp(req, res, next) {
     req.body;
 
   try {
-    if (
-      !name ||
-      !email ||
-      !password ||
-      !passwordConfirm ||
-      !phoneNumber ||
-      !address
-    ) {
-      throw new Error('KEY_ERROR');
-    }
-
     const createUser = await userService.signUp(
       name,
       email,

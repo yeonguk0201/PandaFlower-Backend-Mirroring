@@ -1,12 +1,7 @@
-const { Router } = require('express');
-const { Category, SubCategorySchema, Item } = require('../models');
-const { itemService } = require('../services/item-service');
-const catchAsync = require('../utils/catchAsync');
+const Category = require('../models/category/categorySchema');
+const Item = require('../models/item/itemSchema');
 
-const router = Router();
-
-//상품 검색 라우터 get
-router.get('/search', async (req, res, next) => {
+async function searchItems(req, res, next) {
   console.log('검색 라우터!');
   //word 쿼리로 상품을 검색
   const { name } = req.query;
@@ -15,7 +10,6 @@ router.get('/search', async (req, res, next) => {
     //쿼리값이 없으면 에러 메세지
     if (!name) {
       return res.status(200).json({
-        status: 200,
         msg: '검색어가 제공되지 않았습니다.',
         data: [],
       });
@@ -26,21 +20,18 @@ router.get('/search', async (req, res, next) => {
     const reward = await Item.find({ name: { $regex: regex } });
 
     return res.status(200).json({
-      status: 200,
       msg: '아이템 검색',
       data: reward,
     });
   } catch (error) {
     res.status(500).json({
-      status: 'error',
       msg: '상품 조회 중 에러가 발생했습니다.',
       error: error.message,
     });
   }
-});
+}
 
-//카테고리 상품 조회 라우터
-router.get('/category/:category_id', async (req, res, next) => {
+async function findCategoryItems(req, res, next) {
   console.log('카테고리 내부 상품 조회 라우터!');
 
   try {
@@ -52,23 +43,20 @@ router.get('/category/:category_id', async (req, res, next) => {
 
     if (!categoryItems || categoryItems.length === 0) {
       return res.status(404).json({
-        status: 404,
         msg: '해당 카테고리가 없습니다.',
       });
     }
 
     res.status(200).json({
-      status: 200,
       msg: `${category_id} 카테고리 상품 리스트 조회!`,
       data: categoryItems,
     });
   } catch (error) {
     next(error);
   }
-});
+}
 
-//상품 상세 조회 라우터
-router.get('/:item_id', async (req, res, next) => {
+async function detailItem(req, res, next) {
   console.log('상품 정보 확인 라우터!');
   try {
     //URL에서 파라미터 item_id 추출
@@ -78,36 +66,31 @@ router.get('/:item_id', async (req, res, next) => {
     const item = await Item.findOne({ item_id });
 
     res.status(200).json({
-      status: 'success',
       msg: '상세 아이템 조회 성공!',
       data: item,
     });
   } catch (error) {
     res.status(500).json({
-      status: 'error',
       msg: '상품 조회 중 에러가 발생했습니다.',
       error: error.message,
     });
   }
-});
+}
 
-//아이템 조회 라우터
-router.get('/', async (req, res, next) => {
+async function allItems(req, res, next) {
   console.log('전체 아이템 조회 라우터!');
   try {
     const items = await Item.find({});
     return res.status(200).json({
-      status: 200,
       msg: '전체 아이템 조회',
       data: items,
     });
   } catch (error) {
     next(error);
   }
-});
+}
 
-//상품 생성 라우터
-router.post('/', async (req, res, next) => {
+async function createItem(req, res, next) {
   console.log('상품 추가 라우터!');
   const data = req.body;
 
@@ -120,26 +103,17 @@ router.post('/', async (req, res, next) => {
       description: data.description,
     });
 
-    // //상품을 해당 카테고리에 추가
-    // const category = await Category.findOne({ name: data.category });
-    // if (category) {
-    //   category.items.push(newItem._id);
-    //   await category.save();
-    // }
-
     //추가 성공시 응답
-    res.status(201).json({ status: 'success', msg: '새로운 상품이 추가되었습니다.', data: newItem });
+    res.status(201).json({ msg: '새로운 상품이 추가되었습니다.', data: newItem });
   } catch (error) {
     res.status(500).json({
-      status: 'error',
       msg: '상품 추가 중 에러가 발생했습니다.',
       error: error.message,
     });
   }
-});
+}
 
-//상품 수정 라우터
-router.patch('/:item_id', async (req, res, next) => {
+async function updateItem(req, res, next) {
   console.log('상품 수정 라우터!');
   try {
     //item_id로 파라미터 설정
@@ -153,16 +127,15 @@ router.patch('/:item_id', async (req, res, next) => {
 
     //찾았는데 안나오면 에러 반환
     if (!updatedItem) {
-      return res.status(404).json({ status: 'error', msg: '아이템을 찾을 수 없습니다.' });
+      return res.status(404).json({ msg: '아이템을 찾을 수 없습니다.' });
     }
-    return res.status(200).json({ status: 'success', msg: '아이템이 성공적으로 수정되었습니다.', data: updatedItem });
+    return res.status(200).json({ msg: '아이템이 성공적으로 수정되었습니다.', data: updatedItem });
   } catch (error) {
-    return res.status(500).json({ status: 'error', msg: '아이템 수정 중 에러가 발생했습니다.', error: error.message });
+    return res.status(500).json({ msg: '아이템 수정 중 에러가 발생했습니다.', error: error.message });
   }
-});
+}
 
-//상품 삭제 라우터
-router.delete('/:item_id', async (req, res, next) => {
+async function deleteItem(req, res, next) {
   console.log('상품 삭제 라우터!');
 
   try {
@@ -172,13 +145,21 @@ router.delete('/:item_id', async (req, res, next) => {
     const deleteItem = await Item.findOneAndDelete({ item_id });
 
     if (!deleteItem) {
-      return res.status(404).json({ status: 'error', msg: '아이템을 찾을 수 없습니다.' });
+      return res.status(404).json({ msg: '아이템을 찾을 수 없습니다.' });
     }
 
-    res.status(200).json({ status: 200, msg: '상품 삭제 성공!', data: deleteItem });
+    res.status(200).json({ msg: '상품 삭제 성공!', data: deleteItem });
   } catch (error) {
-    return res.status(500).json({ status: 'error', msg: '아이템 삭제 중 에러가 발생했습니다.', error: error.message });
+    return res.status(500).json({ msg: '아이템 삭제 중 에러가 발생했습니다.', error: error.message });
   }
-});
+}
 
-module.exports = router;
+module.exports = {
+  searchItems,
+  findCategoryItems,
+  detailItem,
+  allItems,
+  createItem,
+  updateItem,
+  deleteItem,
+};

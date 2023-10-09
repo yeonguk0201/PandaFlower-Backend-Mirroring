@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
-const CategorySchema = require('./schemas/category-schema');
-const SubCategorySchema = require('./schemas/subCategory-schema');
-const ItemSchema = require('./schemas/item-schema');
+// const mongoose = require('mongoose');
+// const CategorySchema = require('./schemas/categorySchema');
+// const SubCategorySchema = require('./schemas/subCategorySchema');
+// const ItemSchema = require('./schemas/itemSchema');
 
-exports.Category = mongoose.model('Category', CategorySchema);
-exports.Item = mongoose.model('Item', ItemSchema);
-exports.SubCategorySchema = mongoose.model('SubCategorySchema', SubCategorySchema);
+// exports.Category = mongoose.model('Category', CategorySchema);
+// exports.Item = mongoose.model('Item', ItemSchema);
+// exports.SubCategorySchema = mongoose.model('SubCategorySchema', SubCategorySchema);

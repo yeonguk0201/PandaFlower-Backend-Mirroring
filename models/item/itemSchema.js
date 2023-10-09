@@ -1,5 +1,13 @@
-const { Schema } = require('mongoose');
-const shortId = require('./types/short-id');
+const { model, Schema } = require('mongoose');
+const { nanoid } = require('nanoid');
+
+const shortId = {
+  type: String,
+  default: () => nanoid(),
+  required: true,
+  index: true,
+};
+// const shortId = require('./types/short-id');
 
 const itemSchema = new Schema({
   //상품 구분할 id
@@ -35,4 +43,7 @@ const itemSchema = new Schema({
   },
 });
 
-module.exports = itemSchema;
+const Item = model('Item', itemSchema);
+module.exports = Item;
+
+// module.exports = itemSchema;

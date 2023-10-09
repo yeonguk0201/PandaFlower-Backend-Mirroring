@@ -1,16 +1,22 @@
 const Order = require('../models/order/order');
+const orderService = require('../services/orderService');
 
 async function createOrder(req, res) {
   const { _id } = req.user;
-  //req.body로 상품을 어떻게 받을지 아직 정하지 않음
+  const { recipient, contact, shippingAddress, totalPrice, items } = req.body;
+  const orderData = {
+    user: _id,
+    orderStatus: '주문완료',
+    recipient,
+    contact,
+    shippingAddress,
+    totalPrice,
+    items,
+  };
   try {
-    const order = await Order.create({ user: _id, orderStatus: '주문완료' });
+    const newOrder = await orderService.createOrder(orderData);
 
-    if (!order) {
-      throw new Error('ORDER_FAILED');
-    }
-
-    res.status(201).json(order);
+    res.status(201).json(newOrder);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }

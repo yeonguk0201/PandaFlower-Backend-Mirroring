@@ -10,8 +10,8 @@ const passportJwt = require('./middlewares/passportJwt');
 
 const userRouter = require('./routes/userRouter');
 const orderRouter = require('./routes/orderRouter');
-const categoryRouter = require('./routes/category-router');
-const itemRouter = require('./routes/item-router');
+const categoryRouter = require('./routes/categoryRouter');
+const itemRouter = require('./routes/itemRouter');
 const cartRouter = require('./routes/cartRouter');
 
 const app = express();
@@ -33,7 +33,7 @@ app.use(passport.initialize());
 passportLocal();
 passportJwt();
 
-app.use('/api/users', userRouter);
+app.use('/users', userRouter);
 
 app.use('/categories', categoryRouter);
 
