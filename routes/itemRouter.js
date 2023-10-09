@@ -1,9 +1,39 @@
 const { Router } = require('express');
+const { nanoid } = require('nanoid');
 const itemController = require('../controllers/itemController');
 
 const multer = require('multer');
 const upload = multer({
-  dest: 'uploads/',
+  storage: multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, 'uploads');
+    },
+    filename: (req, file, cb) => {
+      let mimeType = '';
+      switch (file.mimetype) {
+        case 'image/bmp':
+          mimeType = 'png';
+          break;
+        case 'image/gif':
+          mimeType = 'png';
+          break;
+        case 'image/jpeg':
+          mimeType = 'png';
+          break;
+        case 'image/png':
+          mimeType = 'png';
+          break;
+        case 'image/webp':
+          mimeType = 'png';
+          break;
+        default:
+          mimeType = 'png';
+          break;
+      }
+      const randomName = nanoid();
+      cb(null, `${randomName}.${mimeType}`);
+    },
+  }),
 });
 
 const router = Router();
