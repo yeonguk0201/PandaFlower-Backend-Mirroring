@@ -40,8 +40,6 @@ async function deleteOrder(orderNumber) {
 
   const deletedOrder = await Order.deleteOne({ orderNumber });
 
-  console.log(deletedOrder);
-
   if (deletedOrder.deletedCount === 0) {
     throw new Error('ORDER_CANCEL_FAILED');
   }

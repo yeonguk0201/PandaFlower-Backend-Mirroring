@@ -1,5 +1,15 @@
 const cartService = require('../services/cartService');
 
+async function getCartByUser(req, res) {
+  const { _id } = req.user;
+  try {
+    const cartItems = await cartService.getCartByUser(_id);
+    res.status(200).json(cartItems);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+}
+
 async function addItemToCart(req, res) {
   const { _id } = req.user;
   const { item, quantity } = req.body;
@@ -10,53 +20,25 @@ async function addItemToCart(req, res) {
   };
   try {
     const added = await cartService.addItemToCart(addData);
-    res.status(200).json(added);
+    res.status(201).json(added);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 }
 
-async function getCart(req, res) {
-  try {
-    const { userKey } = req.body;
-    const userCart = await cartService.getCartByUser(userKey);
-    res.status(200).json(userCart);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Controller Error' });
-  }
-}
-
 async function deleteCartItem(req, res) {
+  const { _id } = req.user;
+  const { items } = req.body;
   try {
-    const { userKey, itemKey } = req.body;
-    const result = await cartService.deleteCartItem(userKey, itemKey);
-    res.status(200).json({ message: 'Delete success', result });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Controller Error' });
+    const deleted = await cartService.deleteCartItem(_id, items);
+    res.status(200).json({ message: 'DELETE_SUCCESS' });
+  } catch (err) {
+    res.status(400).json({ message: err.message });
   }
 }
 
-async function updateCartItem(req, res) {
-  try {
-    const { userKey, itemKey, newQuantity } = req.body;
-    const userCart = await cartService.getCartByUser(userKey);
-    const itemIndex = userCart.findIndex((item) => item.itemKey === itemKey);
-
-    if (itemIndex === -1) {
-      return res.status(404).json({ error: 'No item in cart' });
-    }
-
-    userCart[itemIndex].quantity = newQuantity;
-
-    const updatedCart = await cartService.updateCart(userKey, userCart);
-
-    res.status(200).json({ message: 'Update success', cart: updatedCart });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Controller Error' });
-  }
-}
-
-module.exports = { deleteCartItem, addItemToCart, getCart, updateCartItem };
+module.exports = {
+  getCartByUser,
+  addItemToCart,
+  deleteCartItem,
+};

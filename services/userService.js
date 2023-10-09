@@ -1,7 +1,7 @@
 const userDao = require('../models/user/userDao');
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[@#$%^&+=!]).{8,}$/;
-const phoneNumberRegex = /^010\d{8}$/;
+const phoneNumberRegex = /^010-\d{4}-\d{4}$/;
 
 async function signUp(
   name,
