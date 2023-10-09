@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const { model, Schema } = require('mongoose');
 const { generate } = require('shortid');
 
@@ -43,12 +42,6 @@ const userSchema = new Schema(
       type: Boolean,
       default: false,
     },
-    orders: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Order', // Order 모델과 연결
-      },
-    ],
   },
   {
     timestamps: true,
