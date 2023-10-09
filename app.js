@@ -33,7 +33,7 @@ app.use(passport.initialize());
 passportLocal();
 passportJwt();
 
-app.use('/api/users', userRouter);
+app.use('/users', userRouter);
 
 app.use('/categories', categoryRouter);
 
