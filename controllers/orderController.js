@@ -12,6 +12,15 @@ async function getOrderByUser(req, res) {
   }
 }
 
+async function getAllOrderByAdmin(req, res) {
+  try {
+    const orders = await Order.find({});
+    res.status(200).json(orders);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+}
+
 async function createOrder(req, res) {
   const { _id } = req.user;
   const { recipient, contact, shippingAddress, totalPrice, items } = req.body;
@@ -50,15 +59,6 @@ async function deleteOrder(req, res) {
     if (deletedOrder.deletedCount === 1) {
       res.status(200).json({ message: 'CANCELED_ORDER' });
     }
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-}
-
-async function getAllOrderByAdmin(req, res) {
-  try {
-    const orders = await Order.find({});
-    res.status(200).json(orders);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }

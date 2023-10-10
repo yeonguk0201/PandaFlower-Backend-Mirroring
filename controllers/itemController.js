@@ -122,15 +122,6 @@ async function createItem(req, res, next) {
   }
 }
 
-// async function uploadImage(req, res, next) {
-//   const image = req.file.path;
-//   console.log(req.file);
-//   if (image === undefined) {
-//     return res.status(400).json({ msg: '이미지가 없습니다.' });
-//   }
-//   res.status(200).json({ msg: '이미지 등록', data: image });
-// }
-
 async function updateItem(req, res, next) {
   console.log('상품 수정 라우터!');
   try {
@@ -184,5 +175,4 @@ module.exports = {
   createItem,
   updateItem,
   deleteItem,
-  // uploadImage,
 };
