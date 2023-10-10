@@ -44,6 +44,9 @@ router.get('/search', itemController.searchItems);
 //카테고리 상품 조회 라우터
 router.get('/category/:category_id', itemController.findCategoryItems);
 
+//서브 카테고리 상품 조회 라우터
+router.get('/subCategory/:subCategory_id', itemController.findSubCategoryItems);
+
 //상품 상세 조회 라우터
 router.get('/:item_id', itemController.detailItem);
 

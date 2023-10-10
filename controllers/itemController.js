@@ -132,6 +132,7 @@ async function createItem(req, res, next) {
     const newItem = await Item.create({
       name: data.name,
       category: data.category,
+      subCategory: data.subCategory,
       price: data.price,
       description: data.description,
       imageUrl: image,
