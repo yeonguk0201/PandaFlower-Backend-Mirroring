@@ -8,4 +8,6 @@ router.get('/orders', validateAdmin, adminController.getAllOrder);
 
 router.patch('/orders', validateAdmin, adminController.editOrderbyAdmin);
 
+router.delete('/orders', validateAdmin, adminController.deleteOrderbyAdmin);
+
 module.exports = router;

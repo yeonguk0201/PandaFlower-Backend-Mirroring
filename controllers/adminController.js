@@ -14,7 +14,13 @@ async function editOrderbyAdmin() {
   return allOrders;
 }
 
+async function deleteOrderbyAdmin() {
+  const allOrders = await orderDao.getAllOrder();
+  return allOrders;
+}
+
 module.exports = {
   getAllOrder,
   editOrderbyAdmin,
+  deleteOrderbyAdmin,
 };
