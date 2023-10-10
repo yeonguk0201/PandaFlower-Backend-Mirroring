@@ -27,6 +27,10 @@ const itemSchema = new Schema({
     type: String,
     required: true,
   },
+  //상품의 서브 카테고리
+  subCategory: {
+    type: String,
+  },
   //상품의 가격
   price: {
     type: Number,
