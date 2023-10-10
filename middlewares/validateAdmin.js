@@ -11,8 +11,12 @@ module.exports = async (req, res, next) => {
         return res.status(401).json({ message: 'Unauthorized' });
       }
 
+      if (!user.isAdmin) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+
       req.user = user;
-      console.log('회원 인증 완료');
+      console.log('관리자 인증 완료');
       next();
     } catch (err) {
       res.status(401).json({ message: err.message });
