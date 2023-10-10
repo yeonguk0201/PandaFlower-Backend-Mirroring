@@ -1,5 +1,15 @@
 const Order = require('./order');
 
+async function getAllOrder() {
+  const orders = await Order.find({});
+
+  if (orders.length === 0) {
+    throw new Error('ORDER_HISTORY_EMPTY');
+  }
+
+  return orders;
+}
+
 async function getOrder(id) {
   const orders = await Order.find({ user: id });
 
@@ -48,6 +58,7 @@ async function deleteOrder(orderNumber) {
 }
 
 module.exports = {
+  getAllOrder,
   getOrder,
   createOrder,
   editOrderInfo,

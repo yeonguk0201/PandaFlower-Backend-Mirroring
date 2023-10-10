@@ -26,7 +26,7 @@ module.exports = (req, res, next) => {
     if (!address) {
       throw new Error('ADDRESS_KEY_ERROR');
     }
-    console.log('입력값 검증');
+
     next();
   } catch (err) {
     next(err);
