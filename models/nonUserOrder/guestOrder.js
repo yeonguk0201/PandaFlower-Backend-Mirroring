@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { model, Schema } = require('mongoose');
 const uuid = require('uuid');
 
-const orderSchema = new Schema(
+const guestOrderSchema = new Schema(
   {
     orderNumber: {
       type: String,
@@ -34,11 +34,6 @@ const orderSchema = new Schema(
       type: Number,
       required: true,
     },
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-      required: true,
-    },
     items: [
       {
         item: {
@@ -55,6 +50,6 @@ const orderSchema = new Schema(
   { timestamps: true }
 );
 
-const Order = model('Order', orderSchema);
+const GuestOrder = model('GuestOrder', guestOrderSchema);
 
-module.exports = Order;
+module.exports = GuestOrder;
