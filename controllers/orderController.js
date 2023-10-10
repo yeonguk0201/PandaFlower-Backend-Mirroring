@@ -1,5 +1,4 @@
 const orderService = require('../services/orderService');
-const Order = require('../models/order/order');
 
 async function getOrderByUser(req, res) {
   const { _id } = req.user;
@@ -13,8 +12,14 @@ async function getOrderByUser(req, res) {
 }
 
 async function createOrder(req, res) {
+  const phoneNumberRegex = /^010-\d{4}-\d{4}$/;
   const { _id } = req.user;
   const { recipient, contact, shippingAddress, totalPrice, items } = req.body;
+
+  if (phoneNumberRegex.test(contact)) {
+    throw new Error('PHONE_NUMBER_INVALID');
+  }
+
   const orderData = {
     user: _id,
     deliveryStatus: '주문완료',

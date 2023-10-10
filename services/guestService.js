@@ -1,4 +1,4 @@
-const guestOrderDao = require('../models/nonUserOrder/guestOrderDao');
+const guestOrderDao = require('../models/guestOrder/guestOrderDao');
 
 async function getOrderByOrderNumber(orderNumber) {
   const order = await guestOrderDao.getOrderByOrderNumber(orderNumber);
