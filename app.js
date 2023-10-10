@@ -37,6 +37,10 @@ app.use(passport.initialize());
 passportLocal();
 passportJwt();
 
+app.get('/', (req, res) => {
+  res.send('hello express');
+});
+
 app.use('/users', userRouter);
 
 app.use('/categories', categoryRouter);
