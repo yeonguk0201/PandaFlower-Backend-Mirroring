@@ -5,11 +5,21 @@ async function getAllOrder() {
   return allOrders;
 }
 
-async function editOrderbyAdmin() {
-  const allOrders = await orderDao.getAllOrder();
+async function editDeliveryStatus(orderNumber, deliveryStatus) {
+  const updatedOrder = await orderDao.editDeliveryStatus(
+    orderNumber,
+    deliveryStatus
+  );
+  return updatedOrder;
+}
+
+async function deleteOrderbyAdmin(orderNumber) {
+  const allOrders = await orderDao.deleteOrderbyAdmin(orderNumber);
   return allOrders;
 }
 
 module.exports = {
   getAllOrder,
+  editDeliveryStatus,
+  deleteOrderbyAdmin,
 };

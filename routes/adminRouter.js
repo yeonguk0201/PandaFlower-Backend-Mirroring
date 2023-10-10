@@ -6,7 +6,7 @@ const router = Router();
 
 router.get('/orders', validateAdmin, adminController.getAllOrder);
 
-router.patch('/orders', validateAdmin, adminController.editOrderbyAdmin);
+router.patch('/orders', validateAdmin, adminController.editDeliveryStatus);
 
 router.delete('/orders', validateAdmin, adminController.deleteOrderbyAdmin);
 

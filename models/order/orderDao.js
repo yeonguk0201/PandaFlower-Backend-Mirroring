@@ -57,10 +57,35 @@ async function deleteOrder(orderNumber) {
   return deletedOrder;
 }
 
+async function editDeliveryStatus(orderNumber, deliveryStatus) {
+  const filter = { orderNumber };
+  const update = {
+    $set: {
+      deliveryStatus,
+    },
+  };
+
+  const updatedOrder = await Order.findOneAndUpdate(filter, update, {
+    new: true,
+  });
+
+  if (!updatedOrder) {
+    throw new Error('NOT_UPDATED');
+  }
+  return updatedOrder;
+}
+
+async function deleteOrderbyAdmin(orderNumber) {
+  const deleted = await Order.deleteOne({ orderNumber });
+  return deleted;
+}
+
 module.exports = {
   getAllOrder,
   getOrder,
   createOrder,
   editOrderInfo,
   deleteOrder,
+  editDeliveryStatus,
+  deleteOrderbyAdmin,
 };
