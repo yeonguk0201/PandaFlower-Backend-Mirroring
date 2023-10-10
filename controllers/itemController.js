@@ -57,6 +57,31 @@ async function findCategoryItems(req, res, next) {
   }
 }
 
+async function findSubCategoryItems(req, res, next) {
+  console.log('서브 카테고리 내부 상품 조회 라우터!');
+
+  try {
+    //URL에서 파라미터 subCategory_id 추출
+    const { subCategory_id } = req.params;
+
+    //category_id로 item의 카테고리 조회
+    const subCategoryItems = await Item.find({ subCategory: subCategory_id });
+
+    if (!subCategoryItems || subCategoryItems.length === 0) {
+      return res.status(404).json({
+        msg: '해당 서브 카테고리가 없습니다.',
+      });
+    }
+
+    res.status(200).json({
+      msg: `${subCategory_id} 서브 카테고리 상품 리스트 조회!`,
+      data: subCategoryItems,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
 async function detailItem(req, res, next) {
   console.log('상품 정보 확인 라우터!');
   try {
@@ -122,15 +147,6 @@ async function createItem(req, res, next) {
   }
 }
 
-// async function uploadImage(req, res, next) {
-//   const image = req.file.path;
-//   console.log(req.file);
-//   if (image === undefined) {
-//     return res.status(400).json({ msg: '이미지가 없습니다.' });
-//   }
-//   res.status(200).json({ msg: '이미지 등록', data: image });
-// }
-
 async function updateItem(req, res, next) {
   console.log('상품 수정 라우터!');
   try {
@@ -179,10 +195,10 @@ async function deleteItem(req, res, next) {
 module.exports = {
   searchItems,
   findCategoryItems,
+  findSubCategoryItems,
   detailItem,
   allItems,
   createItem,
   updateItem,
   deleteItem,
-  // uploadImage,
 };

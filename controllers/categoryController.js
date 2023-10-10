@@ -18,7 +18,7 @@ async function allCategory(req, res, next) {
 //카테고리 생성
 async function createCategory(req, res, next) {
   console.log('카테고리 추가 라우터!');
-  const { name, index } = req.body;
+  const { name } = req.body;
   if (!name || name === '') {
     return res.status(400).json({
       msg: '이름이 없습니다.',
@@ -41,16 +41,15 @@ async function createCategory(req, res, next) {
     if (checkName) {
       throw new Error('이미 존재하는 카테고리 이름입니다.');
     }
-    const checkIndex = await Category.findOne({ index });
-    if (checkIndex) {
-      throw new Error('이미 존재하는 카테고리 인덱스입니다.');
-    }
+    // const checkIndex = await Category.findOne({ index });
+    // if (checkIndex) {
+    //   throw new Error('이미 존재하는 카테고리 인덱스입니다.');
+    // }
 
     //새로운 카테고리 생성하는데 위에서 만든 arr를 카테고리 안의 items로 담는다
     const newCategory = await Category.create({
       name,
-      index,
-      items: arr,
+      // items: arr,
     });
 
     //추가 성공시 응답
