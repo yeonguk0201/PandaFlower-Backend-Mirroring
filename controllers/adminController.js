@@ -24,8 +24,12 @@ async function editDeliveryStatus(req, res) {
 
 async function deleteOrderbyAdmin(req, res) {
   const { orderNumber } = req.body;
-  const allOrders = await adminService.deleteOrderbyAdmin(orderNumber);
-  return allOrders;
+  try {
+    const deleted = await adminService.deleteOrderbyAdmin(orderNumber);
+    res.status(200).json(deleted);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
 }
 
 module.exports = {
