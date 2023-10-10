@@ -12,15 +12,6 @@ async function getOrderByUser(req, res) {
   }
 }
 
-async function getAllOrderByAdmin(req, res) {
-  try {
-    const orders = await Order.find({});
-    res.status(200).json(orders);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-}
-
 async function createOrder(req, res) {
   const { _id } = req.user;
   const { recipient, contact, shippingAddress, totalPrice, items } = req.body;
@@ -69,5 +60,4 @@ module.exports = {
   createOrder,
   editOrderInfo,
   deleteOrder,
-  getAllOrderByAdmin,
 };

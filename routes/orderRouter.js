@@ -6,8 +6,6 @@ const router = Router();
 
 router.get('/', validateToken, orderController.getOrderByUser);
 
-router.get('/ad', validateToken, orderController.getAllOrderByAdmin);
-
 router.post('/', validateToken, orderController.createOrder);
 
 router.patch('/:orderNumber', validateToken, orderController.editOrderInfo);
