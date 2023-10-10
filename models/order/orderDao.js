@@ -20,7 +20,7 @@ async function getOrder(id) {
 }
 
 async function createOrder(orderData) {
-  const newOrder = await Order.create(orderData).populate('user');
+  const newOrder = await Order.create(orderData);
 
   if (!newOrder) {
     throw new Error('ORDER_FAILED');

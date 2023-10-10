@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const passport = require('passport');
+const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const morgan = require('morgan');
 const dotenv = require('dotenv');
@@ -8,7 +9,6 @@ dotenv.config();
 
 const passportLocal = require('./middlewares/passportLocal');
 const passportJwt = require('./middlewares/passportJwt');
-
 const userRouter = require('./routes/userRouter');
 const orderRouter = require('./routes/orderRouter');
 const categoryRouter = require('./routes/categoryRouter');
@@ -16,6 +16,7 @@ const subCategoryRouter = require('./routes/subCategoryRouter');
 const itemRouter = require('./routes/itemRouter');
 const cartRouter = require('./routes/cartRouter');
 const adminRouter = require('./routes/adminRouter');
+const guestRouter = require('./routes/guestRouter');
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use(cors());
 app.use(morgan('combined'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.use(passport.initialize());
 
 passportLocal();
@@ -54,6 +56,8 @@ app.use('/cart', cartRouter);
 app.use('/order', orderRouter);
 
 app.use('/admin', adminRouter);
+
+app.use('/guest', guestRouter);
 
 app.use((err, req, res, next) => {
   res.status(400).json({ message: err.message });
