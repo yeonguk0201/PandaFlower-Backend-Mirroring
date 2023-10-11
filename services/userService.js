@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/user/user');
-const makeHash = require('../../utils/makeHash');
+const makeHash = require('../utils/makeHash');
 const userDao = require('../models/user/userDao');
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[@#$%^&+=!]).{8,}$/;
@@ -67,11 +67,11 @@ async function editUserInfo(userId, updateData) {
 
   const hashedPassword = await makeHash(password);
 
-  const updateData = address
+  const data = address
     ? { password: hashedPassword, address }
     : { password: hashedPassword };
 
-  const updatedUser = await userDao.editUser(userId, updateData);
+  const updatedUser = await userDao.editUser(userId, data);
 
   return updatedUser;
 }
