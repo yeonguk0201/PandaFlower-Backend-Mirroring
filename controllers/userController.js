@@ -62,7 +62,7 @@ async function editUserInfo(req, res) {
   const { userId } = req.user;
   const updateData = req.body;
   try {
-    const updatedUser = await userService.editUser(userId, updateData);
+    const updatedUser = await userService.editUserInfo(userId, updateData);
     res.status(200).json(updatedUser);
   } catch (err) {
     res.status(400).json({ message: err.message });
