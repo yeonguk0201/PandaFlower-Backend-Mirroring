@@ -26,25 +26,10 @@ async function createCategory(req, res, next) {
   }
 
   try {
-    // 카테고리 이름으로 만든 item들을 arr 배열에 담음
-    let arr = [];
-    const items = await Item.find({ category: name });
-    console.log(items);
-    for (let i = 0; i < items.length; i++) {
-      //_id는 mongoDB에서 자동으로 생성되는 식별자로 있는거만 push
-      if (items[i]._id) {
-        arr.push(items[i]._id);
-      }
-    }
-
     const checkName = await Category.findOne({ name });
     if (checkName) {
       throw new Error('이미 존재하는 카테고리 이름입니다.');
     }
-    // const checkIndex = await Category.findOne({ index });
-    // if (checkIndex) {
-    //   throw new Error('이미 존재하는 카테고리 인덱스입니다.');
-    // }
 
     //새로운 카테고리 생성하는데 위에서 만든 arr를 카테고리 안의 items로 담는다
     const newCategory = await Category.create({

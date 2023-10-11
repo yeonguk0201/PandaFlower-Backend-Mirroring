@@ -65,5 +65,3 @@ router.patch('/:item_id', upload.single('image'), itemController.updateItem);
 router.delete('/:item_id', itemController.deleteItem);
 
 module.exports = router;
-
-

@@ -38,9 +38,19 @@ async function findCategoryItems(req, res, next) {
   try {
     //URL에서 파라미터 category_id 추출
     const { category_id } = req.params;
+    //page랑 page당 상품 개수를 쿼리값으로 받고 정수로 변환한다.
+    const perPage = 8;
+    const { page } = req.query;
+    const pageNumber = parseInt(page, 10);
+
+    //데이터 베이스에서 해당 카테고리 항목 페이지 네이션 구현
+    const allCategoryItems = await Item.find({ category: category_id });
+    const startIndex = (pageNumber - 1) * perPage;
+    const endIndex = Math.ceil(allCategoryItems.length / perPage);
 
     //category_id로 item의 카테고리 조회
-    const categoryItems = await Item.find({ category: category_id });
+    const categoryItems = await Item.find({ category: category_id }).skip(startIndex).limit(perPage);
+    console.log(endIndex);
 
     if (!categoryItems || categoryItems.length === 0) {
       return res.status(404).json({
@@ -51,6 +61,7 @@ async function findCategoryItems(req, res, next) {
     res.status(200).json({
       msg: `${category_id} 카테고리 상품 리스트 조회!`,
       data: categoryItems,
+      endIndex,
     });
   } catch (error) {
     next(error);
@@ -63,9 +74,17 @@ async function findSubCategoryItems(req, res, next) {
   try {
     //URL에서 파라미터 subCategory_id 추출
     const { subCategory_id } = req.params;
+    //page랑 page당 상품 개수를 쿼리값으로 받고 정수로 변환한다.
+    const { page, perPage } = req.query;
+    const pageNumber = parseInt(page, 10);
+    const itemsPerPage = parseInt(perPage, 10);
+
+    //데이터 베이스에서 해당 카테고리 항목 페이지 네이션 구현
+    const startIndex = (pageNumber - 1) * itemsPerPage;
+    const endIndex = pageNumber * itemsPerPage;
 
     //category_id로 item의 카테고리 조회
-    const subCategoryItems = await Item.find({ subCategory: subCategory_id });
+    const subCategoryItems = await Item.find({ subCategory: subCategory_id }).skip(startIndex).limit(itemsPerPage);
 
     if (!subCategoryItems || subCategoryItems.length === 0) {
       return res.status(404).json({
