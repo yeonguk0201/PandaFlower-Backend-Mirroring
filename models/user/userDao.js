@@ -1,9 +1,8 @@
-const bcrypt = require('bcrypt');
 const User = require('./user');
 const makeHash = require('../../utils/makeHash');
 
-async function getUser(id) {
-  const user = await User.findOne({ userId: id });
+async function getUser(userId) {
+  const user = await User.findOne({ userId });
 
   if (!user) {
     throw new Error('USER_NOT_FOUND');
@@ -32,54 +31,22 @@ async function createUser(name, email, password, phoneNumber, address) {
   return createUser;
 }
 
-async function editUser(id, data) {
-  const { password, passwordConfirm, address } = data;
+async function editUser(userId, updateData) {
+  const updatedUser = await User.findOneAndUpdate(
+    { userId },
+    { $set: updateData },
+    { new: true }
+  );
 
-  if (password) {
-    const user = await User.findOne({ userId: id });
-    const compareResult = await bcrypt.compare(password, user.password);
-    if (compareResult) {
-      throw new Error('CURRENT_USE_PASSWORD');
-    } else {
-      if (password !== passwordConfirm) {
-        throw new Error('INCORRECT_PASSWORD');
-      } else {
-        const hashedPassword = await makeHash(password);
-
-        const updateData = address
-          ? { password: hashedPassword, address }
-          : { password: hashedPassword };
-
-        const updatedUser = await User.findOneAndUpdate(
-          { userId: id },
-          { $set: updateData },
-          { new: true }
-        );
-
-        if (!updatedUser) {
-          throw new Error('UPDATE_FAILED');
-        }
-
-        return updatedUser;
-      }
-    }
-  } else {
-    const updatedUser = await User.findOneAndUpdate(
-      { userId: id },
-      { $set: data },
-      { new: true }
-    );
-
-    if (!updatedUser) {
-      throw new Error('UPDATE_FAILED');
-    }
-
-    return updatedUser;
+  if (!updatedUser) {
+    throw new Error('UPDATE_FAILED');
   }
+
+  return updatedUser;
 }
 
-async function deleteUser(id) {
-  const result = await User.deleteOne({ userId: id });
+async function deleteUser(userId) {
+  const result = await User.deleteOne({ userId });
 
   if (result.deletedCount === 0) {
     throw new Error('DELETE_FAILED');

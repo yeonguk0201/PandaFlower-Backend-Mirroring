@@ -9,10 +9,10 @@ router.post('/signup', validateUser, userController.signUp);
 
 router.post('/login', userController.login);
 
-router.get('/:id', validateToken, userController.getUserInfo);
+router.get('/', validateToken, userController.getUserInfo);
 
-router.patch('/:id', validateToken, userController.editUserInfo);
+router.patch('/', validateToken, userController.editUserInfo);
 
-router.delete('/:id', validateToken, userController.deleteUser);
+router.delete('/', validateToken, userController.deleteUser);
 
 module.exports = router;
