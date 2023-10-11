@@ -43,21 +43,21 @@ app.get('/', (req, res) => {
   res.send('hello express');
 });
 
-app.use('/users', userRouter);
+app.use('/api/users', userRouter);
 
-app.use('/categories', categoryRouter);
+app.use('/api/categories', categoryRouter);
 
-app.use('/subcategories', subCategoryRouter);
+app.use('/api/subcategories', subCategoryRouter);
 
-app.use('/items', itemRouter);
+app.use('/api/items', itemRouter);
 
-app.use('/cart', cartRouter);
+app.use('/api/cart', cartRouter);
 
-app.use('/order', orderRouter);
+app.use('/api/order', orderRouter);
 
-app.use('/admin', adminRouter);
+app.use('/api/admin', adminRouter);
 
-app.use('/guest', guestRouter);
+app.use('/api/guest', guestRouter);
 
 app.use((err, req, res, next) => {
   res.status(400).json({ message: err.message });
