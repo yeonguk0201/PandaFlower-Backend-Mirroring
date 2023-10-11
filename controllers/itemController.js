@@ -47,6 +47,7 @@ async function findCategoryItems(req, res, next) {
     const allCategoryItems = await Item.find({ category: category_id });
     const startIndex = (pageNumber - 1) * perPage;
     const endIndex = Math.ceil(allCategoryItems.length / perPage);
+    const restProductNum = Math.ceil(allCategoryItems / perPage);
 
     //category_id로 item의 카테고리 조회
     const categoryItems = await Item.find({ category: category_id }).skip(startIndex).limit(perPage);
@@ -62,6 +63,7 @@ async function findCategoryItems(req, res, next) {
       msg: `${category_id} 카테고리 상품 리스트 조회!`,
       data: categoryItems,
       endIndex,
+      restProductNum,
     });
   } catch (error) {
     next(error);
