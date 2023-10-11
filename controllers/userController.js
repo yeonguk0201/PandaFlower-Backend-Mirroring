@@ -49,9 +49,9 @@ async function login(req, res) {
 }
 
 async function getUserInfo(req, res) {
-  const { id } = req.params;
+  const { userId } = req.user;
   try {
-    const user = await userDao.getUser(id);
+    const user = await userService.getUserInfo(userId);
     res.status(200).json(user);
   } catch (err) {
     res.status(404).json({ message: err.message });
@@ -59,10 +59,10 @@ async function getUserInfo(req, res) {
 }
 
 async function editUserInfo(req, res) {
-  const { id } = req.params;
+  const { userId } = req.user;
   const updateData = req.body;
   try {
-    const updatedUser = await userDao.editUser(id, updateData);
+    const updatedUser = await userService.editUser(userId, updateData);
     res.status(200).json(updatedUser);
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -70,9 +70,9 @@ async function editUserInfo(req, res) {
 }
 
 async function deleteUser(req, res) {
-  const { id } = req.params;
+  const { userId } = req.user;
   try {
-    const result = await userDao.deleteUser(id);
+    const result = await userService.deleteUser(userId);
     if (result === 1) {
       res.status(200).json({ message: 'SUCCESS_DELETE' });
     }
