@@ -104,9 +104,24 @@ async function deleteSubCategory(req, res, next) {
   }
 }
 
+//서브 카테고리 전체조회
+async function allSubCategory(req, res, next) {
+  console.log('전체 서브카테고리 조회 라우터!');
+  try {
+    const subCategories = await subCategory.find({});
+    return res.status(200).json({
+      msg: '전체 서브카테고리 조회',
+      data: subCategories,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   getSubCategory,
   createSubCategory,
   updateSubCategory,
   deleteSubCategory,
+  allSubCategory,
 };
