@@ -6,6 +6,9 @@ const router = Router();
 //메인 카테고리의 서브 카테고리 조회 라우터
 router.get('/:categoryName', subCategoryController.getSubCategory);
 
+//서브 카테고리 전체 조회
+router.get('/', subCategoryController.allSubCategory);
+
 //카테고리 생성 라우터
 router.post('/', subCategoryController.createSubCategory);
 
