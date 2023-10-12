@@ -7,6 +7,11 @@ async function searchItems(req, res, next) {
   //word 쿼리로 상품을 검색
   const { name } = req.query;
 
+  //page랑 page당 상품 개수를 쿼리값으로 받고 정수로 변환한다.
+  const perPage = 8;
+  const { page } = req.query;
+  const pageNumber = parseInt(page, 10);
+
   try {
     //쿼리값이 없으면 에러 메세지
     if (!name) {
@@ -18,11 +23,20 @@ async function searchItems(req, res, next) {
 
     //한글 검색을 위해서 RegExp라는 생성자를 사용했다. i는 대소문자 구별하지 않게 하는 옵션이다.
     const regex = new RegExp(name, 'i');
-    const reward = await Item.find({ name: { $regex: regex } });
+
+    //데이터 베이스에서 해당 카테고리 항목 페이지 네이션 구현
+    const allSearchItems = await Item.find({ name: { $regex: regex } });
+    const startIndex = (pageNumber - 1) * perPage;
+    const endIndex = Math.ceil(allSearchItems.length / perPage);
+
+    const reward = await Item.find({ name: { $regex: regex } })
+      .skip(startIndex)
+      .limit(perPage);
 
     return res.status(200).json({
       msg: '아이템 검색',
       data: reward,
+      endIndex,
     });
   } catch (error) {
     res.status(500).json({
