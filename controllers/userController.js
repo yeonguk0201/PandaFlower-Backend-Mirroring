@@ -61,6 +61,8 @@ async function getUserInfo(req, res) {
 async function editUserInfo(req, res) {
   const { userId } = req.user;
   const updateData = req.body;
+  console.log(userId);
+  console.log(updateData);
   try {
     const updatedUser = await userService.editUserInfo(userId, updateData);
     res.status(200).json(updatedUser);

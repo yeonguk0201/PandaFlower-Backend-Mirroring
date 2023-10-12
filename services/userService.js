@@ -48,13 +48,16 @@ async function getUserInfo(userId) {
 
 async function editUserInfo(userId, updateData) {
   const { password, passwordConfirm, address } = updateData;
+  console.log(password);
+  console.log(passwordConfirm);
+  console.log(address);
 
-  if (!password) {
-    const updatedUser = await userDao.editUser(userId, updateData);
+  if (password === '') {
+    const updatedUser = await userDao.editUser(userId, { address });
     return updatedUser;
   }
 
-  const user = await User.findOne({ userId: id });
+  const user = await User.findOne({ userId: userId });
   const compareResult = await bcrypt.compare(password, user.password);
 
   if (compareResult) {
