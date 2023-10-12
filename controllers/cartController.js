@@ -12,7 +12,9 @@ async function getCartByUser(req, res) {
 
 async function addItemToCart(req, res) {
   const { _id } = req.user;
+  console.log(req.body);
   const { item, quantity } = req.body;
+  console.log(item, quantity);
   const addData = {
     user: _id,
     item,
