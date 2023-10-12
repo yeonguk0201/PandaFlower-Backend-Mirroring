@@ -48,9 +48,6 @@ async function getUserInfo(userId) {
 
 async function editUserInfo(userId, updateData) {
   const { password, passwordConfirm, address } = updateData;
-  console.log(password);
-  console.log(passwordConfirm);
-  console.log(address);
 
   if (password === '') {
     const updatedUser = await userDao.editUser(userId, { address });
