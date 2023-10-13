@@ -11,13 +11,8 @@ async function getOrderByUser(req, res) {
 }
 
 async function createOrder(req, res) {
-  const contactRegex = /^010-\d{4}-\d{4}$/;
   const { _id } = req.user;
   const { recipient, contact, shippingAddress, totalPrice, items } = req.body;
-
-  if (contactRegex.test(contact)) {
-    throw new Error('PHONE_NUMBER_INVALID');
-  }
 
   const orderData = {
     user: _id,

@@ -1,8 +1,7 @@
 const Cart = require('./cart');
 
 async function getCartByUser(id) {
-  let cartItems = await Cart.find({ user: id }).populate('item');
-  cartItems = cartItems.map((item) => item.item);
+  const cartItems = await Cart.find({ user: id }).populate('item');
 
   if (cartItems.length === 0) {
     throw new Error('CART_EMPTY');

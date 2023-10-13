@@ -11,7 +11,7 @@ async function getAllOrder() {
 }
 
 async function getOrder(id) {
-  const orders = await Order.find({ user: id });
+  const orders = await Order.find({ user: id }).populate('items.item');
 
   if (orders.length === 0) {
     throw new Error('ORDER_HISTORY_EMPTY');
