@@ -62,6 +62,6 @@ router.post('/', upload.single('image'), itemController.createItem);
 router.patch('/:item_id', upload.single('image'), itemController.updateItem);
 
 //상품 삭제 라우터
-router.delete('/:item_id', itemController.deleteItem);
+router.delete('/delete', itemController.deleteItem);
 
 module.exports = router;

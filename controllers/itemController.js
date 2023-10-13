@@ -213,18 +213,24 @@ async function deleteItem(req, res, next) {
   console.log('상품 삭제 라우터!');
 
   try {
-    //item_id로 파라미터 설정
-    const { item_id } = req.params;
+    //item_ids 배열로 받음
+    const { item_ids } = req.body;
 
-    const deleteItem = await Item.findOneAndDelete({ item_id });
+    //id가 없거나 배열이 아니거나 배열에 요소가 없으면 반환
+    if (!item_ids || !Array.isArray(item_ids) || item_ids.length === 0) {
+      return res.status(400).json({ msg: '유효하지 않은 요청입니다.' });
+    }
 
-    if (!deleteItem) {
+    //$in으로 삭제
+    const deleteItems = await Item.deleteMany({ item_id: { $in: item_ids } });
+
+    if (deleteItems.deletedCount === 0) {
       return res.status(404).json({ msg: '아이템을 찾을 수 없습니다.' });
     }
 
-    res.status(200).json({ msg: '상품 삭제 성공!', data: deleteItem });
+    res.status(200).json({ msg: '선택한 상품 삭제 성공!', data: deleteItems });
   } catch (error) {
-    return res.status(500).json({ msg: '아이템 삭제 중 에러가 발생했습니다.', error: error.message });
+    return res.status(500).json({ msg: '상품 삭제 중 에러가 발생했습니다.', error: error.message });
   }
 }
 
