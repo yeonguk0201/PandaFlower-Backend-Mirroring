@@ -66,7 +66,7 @@ async function editCartItem(req, res) {
 
 async function deleteCartItem(req, res) {
   const { _id } = req.user;
-  const { items } = req.body;
+  const items = req.body;
   try {
     await cartService.deleteCartItem(_id, items);
     res.status(200).json({ message: 'DELETE_SUCCESS' });
