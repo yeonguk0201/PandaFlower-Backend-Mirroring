@@ -2,7 +2,6 @@ const Cart = require('./cart');
 
 async function getCartByUser(id) {
   const cartItems = await Cart.find({ user: id }).populate('item');
-
   return cartItems;
 }
 

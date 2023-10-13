@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const ObjectId = mongoose.Types.ObjectId;
 const cartService = require('../services/cartService');
 const cartDao = require('../models/cart/cartDao');
 const Cart = require('../models/cart/cart');
@@ -46,11 +47,28 @@ async function addItemToCart(req, res) {
   }
 }
 
+async function editCartItem(req, res) {
+  const { _id } = req.user;
+  const items = req.body;
+  try {
+    const operations = items.map((item) => ({
+      updateOne: {
+        filter: { user: _id, item: item.item },
+        update: { $set: { quantity: item.quantity } },
+      },
+    }));
+    await Cart.bulkWrite(operations);
+    res.status(200).json({ message: 'QUANTITY_CHANGE_SUCCESS' });
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+}
+
 async function deleteCartItem(req, res) {
   const { _id } = req.user;
   const { items } = req.body;
   try {
-    const deleted = await cartService.deleteCartItem(_id, items);
+    await cartService.deleteCartItem(_id, items);
     res.status(200).json({ message: 'DELETE_SUCCESS' });
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -60,5 +78,6 @@ async function deleteCartItem(req, res) {
 module.exports = {
   getCartByUser,
   addItemToCart,
+  editCartItem,
   deleteCartItem,
 };
