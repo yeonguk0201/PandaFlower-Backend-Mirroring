@@ -3,10 +3,6 @@ const Cart = require('./cart');
 async function getCartByUser(id) {
   const cartItems = await Cart.find({ user: id }).populate('item');
 
-  if (cartItems.length === 0) {
-    throw new Error('CART_EMPTY');
-  }
-
   return cartItems;
 }
 

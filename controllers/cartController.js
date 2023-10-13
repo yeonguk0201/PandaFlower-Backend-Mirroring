@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const cartService = require('../services/cartService');
 const cartDao = require('../models/cart/cartDao');
 const Cart = require('../models/cart/cart');
@@ -14,25 +15,22 @@ async function getCartByUser(req, res) {
 
 async function addItemToCart(req, res) {
   const { _id } = req.user;
-  console.log(req.body);
   const { item, quantity } = req.body;
-  console.log(item, quantity);
-
-  const addData = {
-    user: _id,
-    item,
-    quantity,
-  };
 
   try {
     const cartItems = await cartDao.getCartByUser(_id);
-    const checkCart = cartItems.some((item) => item._id === _id);
 
-    if (checkCart) {
-      const filter = { user: _id, item };
-      const update = { $inc: { quantity: 1 } };
-      await Cart.findOneAndUpdate(filter, update);
-      return;
+    if (cartItems.length !== 0) {
+      const checkCart = cartItems.some((cartItem) => {
+        const objectId = new mongoose.Types.ObjectId(item);
+        return cartItem.item._id.equals(objectId);
+      });
+
+      if (checkCart) {
+        const update = { $inc: { quantity: quantity } };
+        await Cart.findOneAndUpdate({ user: _id, item }, update);
+        return res.status(201).json({ message: 'ADD_SUCCESS' });
+      }
     }
 
     const addData = {
